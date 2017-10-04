@@ -1,0 +1,66 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    
+    <script>
+        function setup() {
+            createCanvas(800,600);
+        }
+
+        function draw() {
+            stroke(150,150,150);//grey outline
+            strokeWeight(5);//thicker outline
+            
+            fill(255,0,0);//head
+            ellipse(280,200,200,200);
+            
+            fill(0,0,0);//eyes
+            ellipse(240,200,40,40);
+            ellipse(320,200,40,40);
+            
+            line(270,240,290,240);//mouth
+            
+            noFill();//chest
+            rectMode(CENTER);
+            rect(280,380,140,160);
+            
+            line(240,460,240,540);//legs
+            line(320,460,320,540);
+            
+            line(210,360,120,300);//arms
+            line(350,360,440,300);
+            
+            fill(0,0,255);//left foot
+            ellipse(220,540,60,20);
+            
+            fill(0,255,0);//right foot
+            ellipse(340,540,60,20);
+            
+            fill(255,255,0);
+            stroke(0,0,0);//antannae
+            line(280,100,280,60);
+            ellipse(280,60,20,20);
+            
+            textSize(30);//the text of "Ey b0ss"
+            text("Ey b0ss",440,180);
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/JaggerD7932/p5js/blob/gh-pages/zoog.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+</html>
