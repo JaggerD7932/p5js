@@ -1,0 +1,72 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    
+    <script>
+    
+        var size;//variable to change the size of the faces
+        var r;//the redness of the faces
+        var g;//the greeness of the faces
+        var b;//the blueness of the faces
+        var opac;//the opacity of the color of the faces
+        var scale;//the scale which the sizes are multiplied by
+        
+        function setup() {
+            createCanvas(800,600);
+            size = 20;
+            r = random(0,255);
+            g = random(0,255);
+            b = random(0,255);
+            opac = 255
+            scale = 1
+            background(r,g,b);
+        }
+
+        function draw() {
+            fill(r,g,b,opac);
+            ellipse(mouseX,mouseY,size*scale,size*scale);//head
+            fill(0,opac);
+            ellipse(mouseX-3*scale,mouseY-3*scale,size/3*scale,size/3*scale);//eyes
+            ellipse(mouseX+3*scale,mouseY-3*scale,size/3*scale,size/3*scale);
+            line(mouseX-5*scale,mouseY+1*scale,mouseX+5*scale,mouseY+1*scale);//mouth
+        }
+        function mousePressed() {//changes the opacity of the color in the circles
+            if (opac <= 0) {
+                opac = 255;
+            } else {
+                opac = opac - 100;
+            }
+        }
+        function mouseMoved() {
+            scale = scale + 0.05;//makes everything bigger
+        }
+        function mouseDragged() {
+            scale = scale - 0.05;//makes everything smaller
+        }
+        function keyPressed() {
+            r = random(0,255);
+            g = random(0,255);
+            b = random(0,255);
+        }
+        
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/JaggerD7932/p5js/blob/gh-pages/interaction-project.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
