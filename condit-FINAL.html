@@ -1,0 +1,119 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    
+    <script>
+        var timerCount;
+        var mX;
+        var mY;
+        var power;
+        var timer;
+        function setup() {
+            createCanvas(800,600);
+            timerCount = 120;
+            mX = width/width;
+            mY = 425;
+            power = true;
+            timer = 0;
+        }
+
+        function draw() {
+            //rectangles for course
+            background(0);
+            fill(150);
+            noStroke();
+            rect(width/width,400,width,50);
+            
+            //start and end points
+            fill(0,255,0);
+            rect(width/width,400,50,50);
+            
+            fill(255,0,0);
+            rect(width-50,400,50,50);
+            
+            //mouse variables
+            mX = mouseX;
+            mY = mouseY;
+            
+            //timer code
+            timer++;
+            
+            if (timer < 60){
+                power = false;
+            }
+            else if (timer >= 60){
+                power = true;
+            }
+            
+            if (timer >= 120){
+                timer = 0;
+            }
+            
+            //main code
+            if(timerCount>0){
+                fill(155);
+                timerCount = constrain(timerCount,0,60);
+                timerCount = timerCount - 1;
+                fill(255,255,0);
+                textSize(20);
+                text("<--- Go Here!!!",width/width+60,height/height+430);
+            }
+            else{
+                mY = constrain(mY,400,450);
+                fill(0,0,255);
+                ellipse(mX,mY,20,20);
+                
+                if(power){
+                    fill(150,50,50);
+                    rect(150,400,20,50);
+                    rect(350,400,20,50);
+                    rect(550,400,20,50);
+                    if((mouseX > 150 && mouseX < 170) || (mouseX > 350 && mouseX < 370) || (mouseX > 550 && mouseX < 570)){
+                        fill(255,0,0);
+                        textSize(50);
+                        text("YOU LOSE!!!", width/2-150, height/2);
+                    }
+                    
+                }
+                else if(!power){
+                    fill(150,50,50);
+                    rect(250,400,20,50);
+                    rect(450,400,20,50);
+                    rect(650,400,20,50);
+                    if((mouseX > 250 && mouseX < 270) || (mouseX > 450 && mouseX < 470) || (mouseX > 650 && mouseX < 670)){
+                        fill(255,0,0);
+                        textSize(50);
+                        text("YOU LOSE!!!", width/2-150, height/2);
+                    }
+                    
+                }
+                
+                if(mouseX > width-50 && mouseX < width){
+                    fill(0,255,0);
+                    textSize(50);
+                    text("YOU WIN!!!", width/2-150, height/2);
+                }
+            }
+            
+        }
+    </script>
+</head>
+
+<body>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/JaggerD7932/p5js/blob/master/condit-FINAL.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
