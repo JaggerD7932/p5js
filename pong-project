@@ -1,0 +1,141 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>Pong</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.4.13/p5.js"></script>
+    <script>
+        //sets variables
+        var ballX; //x location of ball
+        var ballY; //y location of ball
+        var ballSpeedX = 0; //x direction of ball
+        var ballSpeedY = 0; //y direction of ball
+        var paddleHeight = 30; //height of paddle
+        var paddleLength = 200; //length of paddle
+        var score; //user's score
+
+        function setup() {
+            createCanvas(600, 500);
+            noCursor(); //mouse will not be shown
+            
+            ballX = random(width/2-100,width/2+100);  // starts the ball at a random x position
+            ballY = height / 2; // start the ball halfway down the canvas
+            
+            score = 0; // sets the score at 0
+        }
+
+        function draw() {
+            background(128);
+          
+            //all functions
+            moveBall();
+            checkCollide();
+            drawPaddle();
+            drawBall();
+            scoreChange();
+            
+            //beginning message used to promt the player to play
+            if(ballSpeedX == 0){
+                textSize(20);
+                fill(255,255,0);
+                text("Click to begin! Try to reach 500!",width/2-100,height/2-50);
+                score = 0; //keeps the score at 0 while the message is displayed
+                paddleLength = 200; //keeps the paddle length at 200 while the message is displayed
+            }
+        }
+        
+        //sets the ball's starting position, and waits for the user to start
+        function mousePressed() {
+            if (ballSpeedX == 0) { 
+              ballSpeedX = 5;
+              ballSpeedY = 5;
+            }
+        }
+
+        //controls the movement of the ball
+        function moveBall() {
+            ballX = ballX + ballSpeedX;//horizontal movement
+            ballY = ballY + ballSpeedY;//vertical movement
+
+            console.log("ballSpeedX: " + ballSpeedX + ", ballSpeedY: " + ballSpeedY);
+        }
+
+        //reverses the ball when hitting a wall or paddle
+        function checkCollide() {
+            //reverses X value upon hitting the wall
+            if (ballX < 0 || ballX > width) {
+                ballSpeedX = ballSpeedX * -1;
+            }
+            //reverses Y value when the ball hits the top
+            if (ballY < 0) {
+                ballSpeedY = ballSpeedY * -1;
+            }
+
+            if (ballY > height - paddleHeight) { //if the ball hits the paddle:
+                //reverses the Y value
+                if (ballX > mouseX && ballX < mouseX + paddleLength) {
+                    ballSpeedY = ballSpeedY * -1;
+                    score += 10;
+                }
+                
+                else { //if the ball missed the paddle:
+                    fill(0);
+                    textSize(30);
+                    text("GAME OVER!", width / 2 - 50, height / 2); //tells the user they've lost,
+                    noLoop(); //stopping the game
+                }
+            }
+        }
+        
+        //draws (and moves) the ball
+        function drawBall() {
+            noStroke();
+            ellipse(ballX, ballY, 20, 20);
+        }
+
+        //draws and moves the paddle
+        function drawPaddle() {
+            strokeWeight(4);
+            fill(255);
+            rect(mouseX, height - paddleHeight - 4, paddleLength, paddleHeight);
+            paddleLength -= 0.1;
+            if (paddleLength < 30){
+                paddleLength = 200;
+                score += 10;
+            }
+        }
+        
+        //sets and adds to the score
+        function scoreChange() {
+            fill(0);
+            textSize(20);
+            text("Score: " + str(round(score)),50,50);
+            score += 0.1;
+            
+            //tells the user they've won, stopping the game
+            if(score >= 500){
+                fill(0,255,0);
+                textSize(30);
+                text("YOU WIN!!!", width/2 - 50, height/2);
+                noLoop();
+            }
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/JaggerD7932/p5js/blob/gh-pages/pong-project.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
