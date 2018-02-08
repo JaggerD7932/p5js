@@ -1,0 +1,160 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+
+<head>
+    <title>p5js Template</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/0.5.3/p5.js"></script>
+    
+    <script>
+        var targets = []; //creates array to hold targets
+        
+        var rockets = []; //creates array to hold rockets
+        
+        var score = 0; //starts the score at 0
+        
+        function setup() {
+            createCanvas(800,600);
+            
+            //for loop which sets 20 targets
+            for(var i = 0; i < 20; i++){
+                targets.push(new Target())
+            }
+        }
+
+        function draw() {
+            background(0); //sets the background
+            
+            //creates the crosshairs for aiming
+            fill(0);
+            stroke(150);
+            ellipse(mouseX,mouseY,40,40);
+            line(mouseX+50,mouseY,mouseX-50,mouseY);
+            line(mouseX,mouseY+50,mouseX,mouseY-50);
+            
+            //displays and moves the targets on the screen
+            for(var i = 0; i < targets.length; i++){
+                targets[i].move();
+                targets[i].display();
+            }
+            
+            //displays and move the rockets
+            for(var i = 0; i < rockets.length; i++){
+                rockets[i].move();
+                rockets[i].display();
+            }
+            
+            //lists the score
+            textSize(30)
+            fill(255);
+            text("Score: " + score,50,100);
+            
+            for(var i = 0; i < targets.length; i++){
+                for(var j = 0; j < rockets.length; j++){
+                    //tests is the rocket hits one of the targets
+                    if(rockets[j].x < targets[i].x + 30 && 
+                    rockets[j].x > targets[i].x - 30 && 
+                    rockets[j].y < targets[i].y + 30 && 
+                    rockets[j].y > targets[i].y - 30){
+                        score += 1; //adds a point to the score
+                        targets.splice(i,1); //removes the target that was hit
+                        rockets.splice(j,1); //removes the rocket that hit the target
+                    }
+                    //test if the rocket leaves the canvas
+                    else if(rockets[j].y < 0){
+                        if(score > 0){    
+                            score = score - 1; //subtracts a point from the score if your score isn't already 0
+                        }
+                        rockets.splice(j,1); //removes the rocket that flew off the canvas
+                    }
+                }
+            }
+            
+            //displays and changes the score
+            if(targets <= 0){
+                fill(255);
+                if(score > 10){ //if the end score is greater than 10
+                    if(score < 20){ //if the end score is less than 20
+                        //text appears on the screen
+                        text("You Win!", width/2 - 50,height/2);
+                        text("Try to get 20 next time!", width/2 - 150, height/2 + 50);
+                    }
+                    else if(score = 20){ //if the end score is equal to 20
+                        //text appears on the screen
+                        text("You Win!", width/2 - 50,height/2);
+                        text("Perfect score!", width/2 - 80, height /2 - 50);
+                    }
+                }
+                else{ //if the end score is lesss than 10
+                    //text appears on the screen
+                    text("You Lose!", width/2 - 50,height/2);
+                    text("Try to get above 10 next time!", width/2 - 200, height/2 + 50)
+                }
+            }
+        }
+        
+        //target function
+        function Target(){
+            this.x = width/2; //starts the targets in the middle horizontally
+            this.y = random(height/2,height/2-100); // starts the target at a random height
+            this.direction = random(-5,5); //starts the targets in a random direction
+            
+            //movement function
+            this.move = function(){
+                this.x += this.direction;
+                
+                //if the targets hit an edge, change direction
+                if(this.x > width){
+                    this.direction *= -1;
+                }
+                if(this.x < 0){
+                    this.direction *= -1;
+                }
+            }
+            
+            //displaying funtion
+            this.display = function(){
+                fill(255,0,0);
+                ellipse(this.x,this.y,30,30);
+            }
+        }
+        
+        //rocket function
+        function Rocket(){
+            this.x = mouseX -5; //make the rockets launch towards the middle of the cursor
+            this.y = height-20; //start the rockets from the bottom of the screen
+            
+            //movement function
+            this.move = function(){
+                this.y -= 10;
+            }
+            
+            //displaying function
+            this.display = function(){
+                fill(150);
+                rect(this.x,this.y,10,45);
+            }
+        }
+        
+        //add a rocket when the mous is pressed
+        function mousePressed(){
+            rockets.push(new Rocket());
+        }
+    </script>
+</head>
+
+<body>
+<form><input TYPE="button" onClick="history.go(0)" value="Reset"></form>
+    <div id="code" class="container-fluid">
+        <script src="https://gist-it.appspot.com/github/JaggerD7932/p5js/blob/master/project-final.html?footer=0"></script>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script>
+        $(window).bind("load", function() {
+            $('#code').before($('#defaultCanvas0').remove());
+        });
+    </script>
+</body>
+
+
+</html>
